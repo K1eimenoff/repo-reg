@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+<body>
+
+  <div class="reg">
+    <div class="reg-screen">
+      <div class="app-title">
+        <h1>Регистрация</h1>
+      </div>
+
+        <form class="consultation__form">
+        <select class="form__input" name="select" required/>
+        <option value="">--Выберите форум--</option>
+        <option value="INTEKPROM DAIRY 2024">INTEKPROM DAIRY 2024</option>
+        <option value="INTEKPROM MEAT 2024">INTEKPROM MEAT 2024</option>
+        <option value="INTEKPROM DRINKTEC 2024">INTEKPROM DRINKTEC 2024</option>
+
+		<input class="form__input" type="text" placeholder="ФИО" name="name" required>
+
+		<input class="form__input" type="tel" placeholder="Номер телефона" name="tel" required>
+
+		<input class="form__input" type="text" placeholder="Email" name="email" required>
+
+		<input class="form__input" type="text" placeholder="Компания" name="com" required>
+
+		<input class="form__input" type="text" placeholder="Должность" name="pos" required>
+
+            <input class="form__input btn" type="submit" value="Отправить">
+            <input type="hidden" name="act" value="order">
+</form>
+
+        <script>
+    const siteForm = document.querySelector('.consultation__form');
+    siteForm.addEventListener('submit',async (e) => {
+        e.preventDefault();
+        const item = e.target;
+        const submitBtn =  item.querySelector('input[type=submit]');
+        submitBtn.setAttribute('disabled', 'true');
+
+        let response = await fetch('/send.php', {
+            method: 'POST',
+            body: new FormData(item)
+        })
+            .then(data => {
+                item.reset();
+            })
+            .catch((error) => console.log("ошибка!", error))
+            .finally(() => {
+                submitBtn.removeAttribute('disabled');
+            });
+    })
+</script>
+
+
+    </div>
+  </div>
+</body>
+
+</head>
+</html>
