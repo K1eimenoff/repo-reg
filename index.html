@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="css/Style.css">
+    <meta charset="UTF-8">
+    <title>Registration</title>
+
+<body>
+
+  <div class="reg">
+    <div class="reg-screen">
+      <div class="app-title">
+        <h1>Регистрация</h1>
+      </div>
+
+    <legend>Выберите форум</legend>
+
+        <form class="registration-form">
+         <select id="selforum">
+        <option>INTEKPROM DAIRY 2024</option>
+        <option>INTEKPROM MEAT 2024</option>
+        <option>INTEKPROM DRINKTEC 2024</option>
+         </select>
+        <input type="text" name="n" placeholder="ФИО" required="required" />
+        <input type="tel" name="t" placeholder="Номер телефона" required="required" />
+        <input type="email" name="e" placeholder="Email" required="required" />
+        <input type="text" name="c" placeholder="Компания" required="required" />
+        <input type="text" name="p" placeholder="Должность" required="required" />
+
+         <button name="button" type="submit">Отправить</button>
+<!--            <input type="submit" value="Получить консультацию">-->
+        </form>
+
+        <script>
+    const siteForm = document.querySelector('.registration-form');
+    siteForm.addEventListener('submit',async (e) => {
+        e.preventDefault();
+        const item = e.target;
+        const submitBtn =  item.querySelector('button[type=submit]');
+        submitBtn.setAttribute('disabled', 'true');
+
+        let response = await fetch('/send.php', {
+            method: 'POST',
+            body: new FormData(item)
+        })
+            .then(data => {
+                item.reset();
+            })
+            .catch((error) => console.log("ошибка!", error))
+            .finally(() => {
+                submitBtn.removeAttribute('disabled');
+            });
+    })
+</script>
+
+    </div>
+  </div>
+</body>
+
+</head>
+</html>
